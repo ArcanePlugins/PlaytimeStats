@@ -25,7 +25,7 @@ import dev.jorel.commandapi.arguments.OfflinePlayerArgument
 import dev.jorel.commandapi.executors.CommandExecutor
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.PlaytimeStats
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.command.Cmd
-import io.github.arcaneplugins.playtimestats.plugin.bukkit.misc.Permission
+import io.github.arcaneplugins.playtimestats.plugin.core.misc.Permission
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.GRAY
 import org.bukkit.OfflinePlayer

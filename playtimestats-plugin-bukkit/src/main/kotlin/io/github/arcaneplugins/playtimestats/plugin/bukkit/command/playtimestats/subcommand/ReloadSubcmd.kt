@@ -23,7 +23,7 @@ import dev.jorel.commandapi.CommandAPICommand
 import dev.jorel.commandapi.executors.CommandExecutor
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.PlaytimeStats
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.command.Cmd
-import io.github.arcaneplugins.playtimestats.plugin.bukkit.misc.Permission
+import io.github.arcaneplugins.playtimestats.plugin.core.misc.Permission
 
 object ReloadSubcmd : Cmd {
     override fun build(plugin: PlaytimeStats): CommandAPICommand {

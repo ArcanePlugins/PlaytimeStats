@@ -24,7 +24,7 @@ import io.github.arcaneplugins.playtimestats.plugin.bukkit.PlaytimeStats
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.command.Cmd
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.command.playtimestats.subcommand.ReloadSubcmd
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.command.playtimestats.subcommand.VersionSubcmd
-import io.github.arcaneplugins.playtimestats.plugin.bukkit.misc.Permission
+import io.github.arcaneplugins.playtimestats.plugin.core.misc.Permission
 
 object PlaytimeStatsCmd : Cmd {
     override fun build(plugin: PlaytimeStats): CommandAPICommand {
