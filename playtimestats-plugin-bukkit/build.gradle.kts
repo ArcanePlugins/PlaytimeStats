@@ -24,9 +24,8 @@ description = description
 version = version
 
 plugins {
-    id("java")
     kotlin("jvm") version "2.1.0"
-    id("com.gradleup.shadow") version "8.3.5" // the IDE bugs out with 9.0.0-beta4 - maybe wait for the 9.x release?
+    id("com.gradleup.shadow") version "8.3.5"
 }
 
 apply(plugin = "java")
@@ -41,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project.parent!!.project("playtimestats-plugin-core"))
+    implementation(project.project(":playtimestats-plugin-core"))
     implementation(libs.bStats)
     implementation(libs.commandApi)
     compileOnly(libs.spigotApi)
@@ -60,6 +59,8 @@ tasks {
     }
 
     shadowJar {
+        dependsOn(":playtimestats-plugin-core:shadowJar")
+
         archiveClassifier = ""
         dependencies {
             relocate("dev.jorel.commandapi", "${project.group}.plugin.bukkit.lib.commandapi")

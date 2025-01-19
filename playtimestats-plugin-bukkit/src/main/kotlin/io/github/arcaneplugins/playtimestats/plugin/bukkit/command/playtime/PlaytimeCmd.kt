@@ -25,8 +25,10 @@ import dev.jorel.commandapi.arguments.OfflinePlayerArgument
 import dev.jorel.commandapi.executors.CommandExecutor
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.PlaytimeStats
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.command.Cmd
+import io.github.arcaneplugins.playtimestats.plugin.core.data.PlaytimeData
 import io.github.arcaneplugins.playtimestats.plugin.core.misc.Permission
 import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.DARK_GRAY
 import org.bukkit.ChatColor.GRAY
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
@@ -53,8 +55,16 @@ object PlaytimeCmd : Cmd {
                     throw CommandAPI.failWithString("That player hasn't played before.")
                 }
 
-                sender.sendMessage("${GRAY}Retrieving playtime for ${AQUA}${player.name}${GRAY}...")
-                throw CommandAPI.failWithString("This command is not yet implemented.") // TODO Implement CMD
+                val data = plugin.dataMgr.getPlaytimeData(player.uniqueId) ?: PlaytimeData(
+                    uuid = player.uniqueId,
+                    lastUsername = player.name ?: "?",
+                    minutesPlayed = plugin.dataMgr.getMinutesPlayed(player),
+                    sessionsPlayed = plugin.dataMgr.getSessionsPlayed(player),
+                )
+
+                sender.sendMessage("${GRAY}Playtime statistics for ${AQUA}${data.lastUsername}$GRAY:")
+                sender.sendMessage("${DARK_GRAY} • ${GRAY}Time played: ${AQUA}${data.minutesPlayed}} minutes")
+                sender.sendMessage("${DARK_GRAY} • ${GRAY}Sessions played: ${AQUA}${data.sessionsPlayed}}")
             })
     }
 }

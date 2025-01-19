@@ -20,12 +20,16 @@
 package io.github.arcaneplugins.playtimestats.plugin.bukkit
 
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.command.CmdManager
+import io.github.arcaneplugins.playtimestats.plugin.bukkit.data.BukkitDataManager
+import io.github.arcaneplugins.playtimestats.plugin.bukkit.listener.ListenerManager
 import io.github.arcaneplugins.playtimestats.plugin.core.Platform
 import org.bukkit.plugin.java.JavaPlugin
 
 class PlaytimeStats : JavaPlugin(), Platform {
 
     private val cmdMgr = CmdManager(this)
+    internal val dataMgr = BukkitDataManager(this)
+    private val listenerMgr = ListenerManager(this)
 
     override fun onLoad() {
         initialize()
@@ -44,15 +48,19 @@ class PlaytimeStats : JavaPlugin(), Platform {
     }
 
     override fun startup() {
+        dataMgr.startup()
+        listenerMgr.startup()
         cmdMgr.startup()
     }
 
     override fun shutdown() {
         cmdMgr.shutdown()
+        dataMgr.shutdown()
     }
 
     override fun reload() {
-        TODO("Not yet implemented")
+        dataMgr.shutdown()
+        dataMgr.startup()
     }
 
 }

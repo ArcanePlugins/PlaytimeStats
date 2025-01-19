@@ -21,10 +21,15 @@ package io.github.arcaneplugins.playtimestats.plugin.bukkit.command.playtimetop
 
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPICommand
+import dev.jorel.commandapi.arguments.IntegerArgument
 import dev.jorel.commandapi.executors.CommandExecutor
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.PlaytimeStats
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.command.Cmd
 import io.github.arcaneplugins.playtimestats.plugin.core.misc.Permission
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.DARK_GRAY
+import org.bukkit.ChatColor.GRAY
+import kotlin.jvm.optionals.getOrNull
 
 object PlaytimeTopCmd: Cmd {
 
@@ -32,8 +37,22 @@ object PlaytimeTopCmd: Cmd {
         return CommandAPICommand("playtimetop")
             .withAliases("pttop")
             .withPermission(Permission.COMMAND_PLAYTIMETOP.toString())
+            .withOptionalArguments(
+                IntegerArgument("page")
+            )
             .executes(CommandExecutor { sender, args ->
-                throw CommandAPI.failWithString("Not yet implemented")
+                val page = (args.getOptional("page").getOrNull() as Int?) ?: 1
+
+                if (page <= 0) {
+                    throw CommandAPI.failWithString("Page number must be at least 1")
+                }
+
+                val dataList = plugin.dataMgr.getTopPlaytimesData(page)
+
+                sender.sendMessage("${DARK_GRAY}+-----+${GRAY} Top Playtimes ${DARK_GRAY}•${GRAY} pg${page} ${DARK_GRAY}+-----+")
+                dataList.forEachIndexed { index, data ->
+                    sender.sendMessage("${DARK_GRAY}  ${index}.  ${AQUA}${data.lastUsername}${DARK_GRAY} » ${GRAY}${data.minutesPlayed} minutes; ${data.sessionsPlayed} sessions")
+                }
             })
     }
 

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 /*
  * Copyright (c) 2025 lokka30 and contributors.
  *
@@ -19,7 +21,12 @@
 
 plugins {
     kotlin("jvm")
+    id("com.gradleup.shadow") version "8.3.5"
 }
+
+apply(plugin = "java")
+apply(plugin = "kotlin")
+apply(plugin = "com.gradleup.shadow")
 
 group = "io.github.arcaneplugins.polyconomy.playtimestats"
 version = "0.1.0"
@@ -29,12 +36,42 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.h2)
     testImplementation(kotlin("test"))
 }
 
-tasks.test {
-    useJUnitPlatform()
+tasks {
+    jar {
+        enabled = false
+    }
+
+    shadowJar {
+        archiveClassifier = ""
+        dependencies {
+            relocate("org.h2", "${project.group}.plugin.core.lib.h2")
+        }
+        minimize {}
+    }
+
+    compileKotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_21
+            apiVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1
+        }
+    }
+
+    compileJava {
+        options.isDeprecation = true
+        options.encoding = "UTF-8"
+    }
 }
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+}
+
 kotlin {
     jvmToolchain(21)
 }
