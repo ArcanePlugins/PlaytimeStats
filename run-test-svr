@@ -1,0 +1,71 @@
+#!/bin/bash
+# === PlaytimeStats - run-test-svr script ===
+# Copyright (c) 2025  lokka30
+#
+# === About This Script ===
+# This script does the following:
+#  1)  Builds the project (clean build).
+#  2)  Creates or uses the existing project-local test servers.
+#      Current test server platforms:
+#       - PaperMC
+#  3)  Copies the built plugin JAR to the test servers, deleting old JARs.
+#  4)  Runs the test server.
+
+set -e # We don't want to keep chugging along if any errors happen.
+cd "$(dirname "$0")" # Forcefully set the current working directory to wherever this script is (i.e., project root).
+
+# This function prints a decorative banner around a message which is supposedly important for the user to see.
+function print_banner() {
+  echo "»------------------------------«"
+  echo "[run-test-svr]: $1"
+  echo "»------------------------------«"
+}
+
+# This function will print a banner for a given message and also (on supported platforms, such as macOS) voice the
+# message via text-to-speech (TTS) using the `say` command.
+function echo_and_say() {
+  print_banner "$1"
+
+  # On platforms with the `say` command, i.e. macOS, voice the message with Text To Speech (TTS) via `say`.
+  if command -v say > /dev/null 2>&1
+  then
+    say "$1" &
+  fi
+}
+
+# === BUILD LOGIC ===
+print_banner "Building project..."
+if ! gradle clean build
+then
+  echo_and_say "Failed to build"
+  exit 1
+fi
+
+# === CREATE TEST SERVER LOGIC ===
+print_banner "Checking Paper server files..."
+TEST_SVR_PATH="./playtimestats-plugin-bukkit/testsvr"
+PAPERMC_JAR_NAME="papermc.jar"
+PAPERMC_JAR_PATH="$TEST_SVR_PATH/$PAPERMC_JAR_NAME"
+PAPERMC_DOWNLOAD_URL="https://api.papermc.io/v2/projects/paper/versions/1.21.4/builds/118/downloads/paper-1.21.4-118.jar"
+if [ ! -d "$TEST_SVR_PATH" ]; then
+  echo "Creating test server directory..."
+  mkdir -p "$TEST_SVR_PATH/plugins/"
+  echo "Creating EULA file..."
+  echo "eula=true" > "$TEST_SVR_PATH/eula.txt"
+  echo "Downloading PaperMC server jar..."
+  curl -o "$PAPERMC_JAR_PATH" "$PAPERMC_DOWNLOAD_URL"
+fi
+
+# === COPY JAR LOGIC ===
+print_banner "Copying JAR..."
+BUILT_JAR_PATH="$(find ./playtimestats-plugin-bukkit/build/libs/*)"
+echo "Removing old plugin JARs if exists..."
+rm -vf "$TEST_SVR_PATH/plugins/playtimestats-plugin-bukkit-*.jar"
+echo "Copying built JAR..."
+cp -v "$BUILT_JAR_PATH" "$TEST_SVR_PATH/plugins/"
+echo_and_say "Successful build"
+
+# === TEST SERVER LOGIC ===
+print_banner "Starting server..."
+cd "$TEST_SVR_PATH"
+java -jar -Xmx4G -Xms4G "$PAPERMC_JAR_NAME" nogui

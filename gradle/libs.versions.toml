@@ -1,0 +1,17 @@
+[versions]
+kotlinPluginVersion = "2.1.0"
+shadowVersion = "8.3.5"
+spigotApiVersion = "1.21.3-R0.1-SNAPSHOT" # https://hub.spigotmc.org/nexus/service/rest/repository/browse/snapshots/org/spigotmc/spigot-api/
+placeholderApiVersion = "2.11.6" # https://repo.extendedclip.com/content/repositories/placeholderapi/me/clip/placeholderapi/
+commandApiVersion = "9.7.0" # https://github.com/JorelAli/CommandAPI
+bStatsVersion = "3.1.0" # https://mvnrepository.com/artifact/org.bstats/bstats-bukkit
+
+[libraries]
+spigotApi = { group = "org.spigotmc", name = "spigot-api", version.ref = "spigotApiVersion" }
+placeholderApi = { group = "me.clip", name = "placeholderapi", version.ref = "placeholderApiVersion" }
+commandApi = { group = "dev.jorel", name = "commandapi-bukkit-shade", version.ref = "commandApiVersion" }
+bStats = { group = "org.bstats", name = "bstats-bukkit", version.ref = "bStatsVersion" }
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinPluginVersion" }
+shadow = { id = "com.gradleup.shadow", version.ref = "shadowVersion" }
