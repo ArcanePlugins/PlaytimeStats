@@ -24,6 +24,7 @@ import dev.jorel.commandapi.CommandAPIBukkitConfig
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.PlaytimeStats
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.command.playtime.PlaytimeCmd
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.command.playtimestats.PlaytimeStatsCmd
+import io.github.arcaneplugins.playtimestats.plugin.bukkit.command.playtimetop.PlaytimeTopCmd
 
 class CmdManager(
     private val plugin: PlaytimeStats,
@@ -32,6 +33,7 @@ class CmdManager(
     private val cmds = setOf(
         PlaytimeCmd,
         PlaytimeStatsCmd,
+        PlaytimeTopCmd,
     )
 
     fun initialize() {
