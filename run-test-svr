@@ -1,15 +1,30 @@
 #!/bin/bash
-# === PlaytimeStats - run-test-svr script ===
-# Copyright (c) 2025  lokka30
 #
-# === About This Script ===
-# This script does the following:
-#  1)  Builds the project (clean build).
-#  2)  Creates or uses the existing project-local test servers.
-#      Current test server platforms:
-#       - PaperMC
-#  3)  Copies the built plugin JAR to the test servers, deleting old JARs.
-#  4)  Runs the test server.
+# Copyright (c) 2025 lokka30 and contributors.
+#
+# GPLv3 LICENSE NOTICE:
+#
+#     This program is free software: you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+#
+#     This program is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU General Public License for more details.
+#
+#     You should have received a copy of the GNU General Public License
+#     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# ABOUT THIS SCRIPT:
+#     This script does the following:
+#       1)  Builds the project (clean build).
+#       2)  Creates or uses the existing project-local test servers.
+#           Current test server platforms:
+#            - PaperMC
+#       3)  Copies the built plugin JAR to the test servers, deleting old JARs.
+#       4)  Runs the test server.
 
 set -e # We don't want to keep chugging along if any errors happen.
 cd "$(dirname "$0")" # Forcefully set the current working directory to wherever this script is (i.e., project root).
