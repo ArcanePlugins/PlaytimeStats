@@ -24,8 +24,13 @@ import io.github.arcaneplugins.playtimestats.plugin.bukkit.data.BukkitDataManage
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.listener.ListenerManager
 import io.github.arcaneplugins.playtimestats.plugin.core.Platform
 import org.bukkit.plugin.java.JavaPlugin
+import java.text.DecimalFormat
 
 class PlaytimeStats : JavaPlugin(), Platform {
+
+    companion object {
+        val MINUTES_DECIMAL_FORMAT = DecimalFormat("0.00")
+    }
 
     private val cmdMgr = CmdManager(this)
     internal val dataMgr = BukkitDataManager(this)

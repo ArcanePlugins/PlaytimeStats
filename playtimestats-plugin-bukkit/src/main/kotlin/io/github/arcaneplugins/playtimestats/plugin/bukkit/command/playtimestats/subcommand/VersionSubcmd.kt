@@ -23,12 +23,13 @@ import dev.jorel.commandapi.CommandAPICommand
 import dev.jorel.commandapi.executors.CommandExecutor
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.PlaytimeStats
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.command.Cmd
-import io.github.arcaneplugins.playtimestats.plugin.core.misc.Permission
 import io.github.arcaneplugins.playtimestats.plugin.core.Platform
+import io.github.arcaneplugins.playtimestats.plugin.core.misc.Permission
 import org.bukkit.ChatColor
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.DARK_GRAY
 import org.bukkit.ChatColor.GRAY
+import org.bukkit.ChatColor.ITALIC
 import org.bukkit.ChatColor.WHITE
 
 object VersionSubcmd : Cmd {
@@ -46,11 +47,11 @@ object VersionSubcmd : Cmd {
                 sender.sendMessage(
                     """
                     
-                    ${WHITE}${ChatColor.BOLD}PlaytimeStats v${plugin.description.version}${GRAY} from ArcanePlugins
-                      ${DARK_GRAY}•${AQUA} Authors: ${GRAY}${authors}
-                      ${DARK_GRAY}•${AQUA} Description: ${GRAY}${plugin.description.description}
-                      ${DARK_GRAY}•${AQUA} Website: ${GRAY}${plugin.description.website}
-                      ${DARK_GRAY}•${AQUA} Support Link: ${GRAY}${Platform.SUPPORT_URL}
+                    ${WHITE}${ChatColor.BOLD}PlaytimeStats v${plugin.description.version}${WHITE} by ArcanePlugins
+                    ${DARK_GRAY}  •${AQUA} Authors: ${GRAY}${authors}
+                    ${DARK_GRAY}  •${AQUA} Description: ${GRAY}${plugin.description.description}
+                    ${DARK_GRAY}  •${AQUA} Website: ${DARK_GRAY}${ITALIC}${plugin.description.website}
+                    ${DARK_GRAY}  •${AQUA} Support Link: ${DARK_GRAY}${ITALIC}${Platform.SUPPORT_URL}
                     
                 """.trimIndent()
                 )

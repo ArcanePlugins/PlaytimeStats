@@ -24,17 +24,23 @@ import dev.jorel.commandapi.CommandAPICommand
 import dev.jorel.commandapi.arguments.OfflinePlayerArgument
 import dev.jorel.commandapi.executors.CommandExecutor
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.PlaytimeStats
+import io.github.arcaneplugins.playtimestats.plugin.bukkit.PlaytimeStats.Companion.MINUTES_DECIMAL_FORMAT
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.command.Cmd
 import io.github.arcaneplugins.playtimestats.plugin.core.data.PlaytimeData
 import io.github.arcaneplugins.playtimestats.plugin.core.misc.Permission
 import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.DARK_GRAY
 import org.bukkit.ChatColor.GRAY
+import org.bukkit.ChatColor.RESET
+import org.bukkit.ChatColor.STRIKETHROUGH
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import kotlin.jvm.optionals.getOrNull
 
 object PlaytimeCmd : Cmd {
+
     override fun build(plugin: PlaytimeStats): CommandAPICommand {
         return CommandAPICommand("playtime")
             .withPermission(Permission.COMMAND_PLAYTIME.toString())
@@ -55,6 +61,11 @@ object PlaytimeCmd : Cmd {
                     throw CommandAPI.failWithString("That player hasn't played before.")
                 }
 
+                // update playtime data if player is online
+                if (player.isOnline) {
+                    plugin.dataMgr.updatePlayerData(player.player!!)
+                }
+
                 val data = plugin.dataMgr.getPlaytimeData(player.uniqueId) ?: PlaytimeData(
                     uuid = player.uniqueId,
                     lastUsername = player.name ?: "?",
@@ -62,9 +73,10 @@ object PlaytimeCmd : Cmd {
                     sessionsPlayed = plugin.dataMgr.getSessionsPlayed(player),
                 )
 
-                sender.sendMessage("${GRAY}Playtime statistics for ${AQUA}${data.lastUsername}$GRAY:")
-                sender.sendMessage("${DARK_GRAY} • ${GRAY}Time played: ${AQUA}${data.minutesPlayed}} minutes")
-                sender.sendMessage("${DARK_GRAY} • ${GRAY}Sessions played: ${AQUA}${data.sessionsPlayed}}")
+                sender.sendMessage("${DARK_GRAY}${STRIKETHROUGH}+---+${WHITE}${BOLD} Playtime Stats for ${data.lastUsername} ${DARK_GRAY}${STRIKETHROUGH}+---+${RESET}")
+                sender.sendMessage("${DARK_GRAY} • ${GRAY}Time played: ${AQUA}${MINUTES_DECIMAL_FORMAT.format(data.minutesPlayed)} minutes")
+                sender.sendMessage("${DARK_GRAY} • ${GRAY}Sessions played: ${AQUA}${data.sessionsPlayed}")
+                sender.sendMessage("")
             })
     }
 }

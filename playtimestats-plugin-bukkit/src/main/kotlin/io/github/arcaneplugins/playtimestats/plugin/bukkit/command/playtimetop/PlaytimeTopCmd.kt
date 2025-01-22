@@ -24,11 +24,17 @@ import dev.jorel.commandapi.CommandAPICommand
 import dev.jorel.commandapi.arguments.IntegerArgument
 import dev.jorel.commandapi.executors.CommandExecutor
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.PlaytimeStats
+import io.github.arcaneplugins.playtimestats.plugin.bukkit.PlaytimeStats.Companion.MINUTES_DECIMAL_FORMAT
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.command.Cmd
 import io.github.arcaneplugins.playtimestats.plugin.core.misc.Permission
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.DARK_GRAY
 import org.bukkit.ChatColor.GRAY
+import org.bukkit.ChatColor.RESET
+import org.bukkit.ChatColor.STRIKETHROUGH
+import org.bukkit.ChatColor.WHITE
 import kotlin.jvm.optionals.getOrNull
 
 object PlaytimeTopCmd: Cmd {
@@ -47,12 +53,16 @@ object PlaytimeTopCmd: Cmd {
                     throw CommandAPI.failWithString("Page number must be at least 1")
                 }
 
+                // update playtimes of all online players so it displays the latest information
+                Bukkit.getOnlinePlayers().forEach(plugin.dataMgr::updatePlayerData)
+
                 val dataList = plugin.dataMgr.getTopPlaytimesData(page)
 
-                sender.sendMessage("${DARK_GRAY}+-----+${GRAY} Top Playtimes ${DARK_GRAY}•${GRAY} pg${page} ${DARK_GRAY}+-----+")
+                sender.sendMessage("${DARK_GRAY}${STRIKETHROUGH}+---------+${WHITE}${BOLD} Top Playtimes ${DARK_GRAY}•${GRAY} pg${page} ${DARK_GRAY}${STRIKETHROUGH}+---------+${RESET}")
                 dataList.forEachIndexed { index, data ->
-                    sender.sendMessage("${DARK_GRAY}  ${index}.  ${AQUA}${data.lastUsername}${DARK_GRAY} » ${GRAY}${data.minutesPlayed} minutes; ${data.sessionsPlayed} sessions")
+                    sender.sendMessage("${DARK_GRAY}  ${index + 1}.  ${AQUA}${data.lastUsername}${DARK_GRAY} • ${GRAY}${MINUTES_DECIMAL_FORMAT.format(data.minutesPlayed)} minutes${DARK_GRAY}, ${GRAY}${data.sessionsPlayed} sessions")
                 }
+                sender.sendMessage("")
             })
     }
 

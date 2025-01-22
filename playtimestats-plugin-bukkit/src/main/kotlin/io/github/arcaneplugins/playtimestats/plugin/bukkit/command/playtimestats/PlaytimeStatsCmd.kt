@@ -29,6 +29,7 @@ import io.github.arcaneplugins.playtimestats.plugin.core.misc.Permission
 object PlaytimeStatsCmd : Cmd {
     override fun build(plugin: PlaytimeStats): CommandAPICommand {
         return CommandAPICommand("playtimestats")
+            .withAliases("ptstats")
             .withPermission(Permission.COMMAND_PLAYTIMESTATS.toString())
             .withSubcommands(
                 ReloadSubcmd.build(plugin),
