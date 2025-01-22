@@ -10,16 +10,23 @@ A lightweight plugin that monitors the playtime of each player on your Spigot/Pa
 
 ## Features
 
-* Standard playtime monitoring per-user.
+* Standard:
+  * Per-user playtime monitoring.
+  * 'Top Playtimes' ranking via `/pttop`, just like `/baltop` for money.
+  * Tracks playtime in minutes and sessions played.
+  * References Minecraft's internal player statistics for accurate measurement.
 * Misc:
-    * Clean code using Kotlin + Gradle stack, unit testing of core functionality.
-    * Free & open source software under GPL v3.
+  * Works out of the box with no setup needed.
+  * Clean code - Kotlin/Gradle stack with unit-tested core.
+  * Free & open source software under GPL v3.
 
 ## Future Improvements
 
 * More Powerful:
   * Staff playtime monitoring system to ensure your staff are active and covering timezones.
   * Support ignoring AFK playtime (EssentialsX).
+
+Check the [To-Do List][TODOLIST] for further list and detail of planned tasks. 
 
 # License
 
@@ -37,3 +44,5 @@ Copyright (C) 2025 lokka30 and contributors
 >
 > You should have received a copy of the GNU General Public License
 > along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+[TODOLIST]: https://github.com/orgs/ArcanePlugins/projects/11/views/1
