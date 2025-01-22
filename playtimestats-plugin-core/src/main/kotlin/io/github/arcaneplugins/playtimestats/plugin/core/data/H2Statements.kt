@@ -48,7 +48,7 @@ enum class H2Statements(
     GET_TOP_PLAYTIMES(str = """
         SELECT player_uuid, last_username, minutes_played, sessions_played
         FROM Playtime
-        ORDER BY AccountBalance.amount DESC
+        ORDER BY minutes_played DESC
         LIMIT ?
         OFFSET ?;
     """.trimIndent()),
