@@ -2,26 +2,24 @@
 
 # PlaytimeStats
 
-A lightweight plugin that monitors the playtime of each player on your Spigot/Paper server.
+##### ALPHA
 
-> [!WARNING]
-> This project is in deep development and is not ready for usage.
+A lightweight plugin that monitors the playtime of each player on your Spigot/Paper server.
 
 </div>
 
 ## Features
 
-Currently, none. Still in heavy development! :)
-
-On the agenda:
-
 * Standard playtime monitoring per-user.
-* Powerful:
-    * Special staff playtime monitoring system which helps you ensure your staff are covering effectively.
-    * Supports ignoring AFK playtime (EssentialsX).
 * Misc:
-    * Clean(ish) code using Kotlin + Gradle stack.
+    * Clean code using Kotlin + Gradle stack, unit testing of core functionality.
     * Free & open source software under GPL v3.
+
+## Future Improvements
+
+* More Powerful:
+  * Staff playtime monitoring system to ensure your staff are active and covering timezones.
+  * Support ignoring AFK playtime (EssentialsX).
 
 # License
 
