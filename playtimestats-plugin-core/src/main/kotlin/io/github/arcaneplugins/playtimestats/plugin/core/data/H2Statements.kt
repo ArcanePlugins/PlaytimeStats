@@ -25,12 +25,11 @@ enum class H2Statements(
 
     CREATE_TABLES(str = """
         CREATE TABLE IF NOT EXISTS Playtime (
-            id              IDENTITY    NOT NULL,
-            player_uuid     BINARY(16)  NOT NULL UNIQUE,
-            last_username   VARCHAR(16) NOT NULL,
-            minutes_played  INTEGER     NOT NULL,
-            sessions_played INTEGER     NOT NULL,
-            PRIMARY KEY (id)
+            player_uuid     BINARY(16)          NOT NULL,
+            last_username   VARCHAR(16)         NOT NULL,
+            minutes_played  FLOAT               NOT NULL,
+            sessions_played INTEGER             NOT NULL,
+            PRIMARY KEY (player_uuid)
         );
     """.trimIndent()),
 

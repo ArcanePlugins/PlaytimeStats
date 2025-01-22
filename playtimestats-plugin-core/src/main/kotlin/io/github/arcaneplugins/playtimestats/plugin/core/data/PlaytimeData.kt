@@ -24,6 +24,6 @@ import java.util.*
 data class PlaytimeData(
     val uuid: UUID,
     val lastUsername: String,
-    val minutesPlayed: Int,
+    val minutesPlayed: Float,
     val sessionsPlayed: Int,
 )

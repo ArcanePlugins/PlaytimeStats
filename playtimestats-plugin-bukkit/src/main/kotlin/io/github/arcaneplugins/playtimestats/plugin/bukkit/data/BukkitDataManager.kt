@@ -46,8 +46,8 @@ class BukkitDataManager(
         ))
     }
 
-    fun getMinutesPlayed(player: OfflinePlayer): Int {
-        return player.getStatistic(Statistic.PLAY_ONE_MINUTE)
+    fun getMinutesPlayed(player: OfflinePlayer): Float {
+        return player.getStatistic(Statistic.PLAY_ONE_MINUTE) / (1000.toFloat())
     }
 
     fun getSessionsPlayed(player: OfflinePlayer): Int {

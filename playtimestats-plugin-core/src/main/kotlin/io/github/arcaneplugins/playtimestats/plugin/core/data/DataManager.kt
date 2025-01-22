@@ -87,7 +87,7 @@ abstract class DataManager(
             return@use PlaytimeData(
                 uuid = uuid,
                 lastUsername = rs.getString("last_username"),
-                minutesPlayed = rs.getInt("minutes_played"),
+                minutesPlayed = rs.getFloat("minutes_played"),
                 sessionsPlayed = rs.getInt("sessions_played"),
             )
         }
@@ -97,7 +97,7 @@ abstract class DataManager(
         connection.prepareStatement(H2Statements.SET_PLAYTIME.str).use { statement ->
             statement.setBytes(1, data.uuid.toKotlinUuid().toByteArray())
             statement.setString(2, data.lastUsername)
-            statement.setInt(3, data.minutesPlayed)
+            statement.setFloat(3, data.minutesPlayed)
             statement.setInt(4, data.sessionsPlayed)
             statement.executeUpdate()
         }
@@ -120,7 +120,7 @@ abstract class DataManager(
                     PlaytimeData(
                         uuid = Uuid.fromByteArray(rs.getBytes("player_uuid")).toJavaUuid(),
                         lastUsername = rs.getString("last_username"),
-                        minutesPlayed = rs.getInt("minutes_played"),
+                        minutesPlayed = rs.getFloat("minutes_played"),
                         sessionsPlayed = rs.getInt("sessions_played"),
                     )
                 )
