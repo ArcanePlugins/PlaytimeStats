@@ -17,12 +17,11 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-group = "io.github.arcaneplugins.polyconomy.playtimestats"
+group = "io.github.arcaneplugins.playtimestats"
 
 allprojects {
     repositories {
         mavenCentral()
-        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     }
 }
 

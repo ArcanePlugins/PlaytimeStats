@@ -48,7 +48,7 @@ abstract class DataManager(
             return
         }
 
-        Class.forName("io.github.arcaneplugins.plugin.core.lib.h2.Driver")
+        Class.forName("org.h2.Driver")
         connection = DriverManager.getConnection(url)
         connected = true
         createTables()

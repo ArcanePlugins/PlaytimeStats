@@ -21,14 +21,13 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("jvm")
-    id("com.gradleup.shadow") version "8.3.5"
 }
 
 apply(plugin = "java")
 apply(plugin = "kotlin")
 apply(plugin = "com.gradleup.shadow")
 
-group = "io.github.arcaneplugins.polyconomy.playtimestats"
+group = "io.github.arcaneplugins.playtimestats"
 version = "0.1.0"
 
 repositories {
@@ -36,21 +35,13 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.h2)
+    api(libs.h2)
     testImplementation(kotlin("test"))
 }
 
 tasks {
     jar {
-        enabled = false
-    }
-
-    shadowJar {
-        archiveClassifier = ""
-        dependencies {
-            relocate("org.h2", "${project.group}.plugin.core.lib.h2")
-        }
-        minimize {}
+        enabled = true
     }
 
     compileKotlin {

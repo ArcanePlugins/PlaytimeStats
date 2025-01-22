@@ -24,11 +24,12 @@ pluginManagement {
     }
 }
 
-
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
 
 rootProject.name = "PlaytimeStats"
-include("playtimestats-plugin-bukkit")
-include("playtimestats-plugin-core")
+include(
+    "playtimestats-plugin-bukkit",
+    "playtimestats-plugin-core"
+)

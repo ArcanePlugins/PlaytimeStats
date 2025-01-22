@@ -19,13 +19,13 @@
 
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
-group = "io.github.arcaneplugins.polyconomy.playtimestats"
+group = "io.github.arcaneplugins.playtimestats"
 description = description
 version = version
 
 plugins {
     kotlin("jvm") version "2.1.0"
-    id("com.gradleup.shadow") version "8.3.5"
+    alias(libs.plugins.shadow)
 }
 
 apply(plugin = "java")
@@ -40,9 +40,10 @@ repositories {
 }
 
 dependencies {
-    implementation(project.project(":playtimestats-plugin-core"))
+    implementation(project(":playtimestats-plugin-core"))
     implementation(libs.bStats)
     implementation(libs.commandApi)
+    implementation(libs.h2)
     compileOnly(libs.spigotApi)
     compileOnly(libs.placeholderApi)
 }
@@ -59,15 +60,14 @@ tasks {
     }
 
     shadowJar {
-        dependsOn(":playtimestats-plugin-core:shadowJar")
-
         archiveClassifier = ""
         dependencies {
             relocate("dev.jorel.commandapi", "${project.group}.plugin.bukkit.lib.commandapi")
             relocate("org.bstats", "${project.group}.plugin.bukkit.lib.bstats")
             relocate("kotlin", "${project.group}.plugin.bukkit.lib.kotlin")
+            relocate("org.h2", "io.github.arcaneplugins.playtimestats.plugin.bukkit.lib.h2")
         }
-        minimize {}
+        // minimize {}
     }
 
     compileKotlin {
