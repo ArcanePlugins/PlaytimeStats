@@ -55,6 +55,10 @@ tasks {
         options.isDeprecation = true
         options.encoding = "UTF-8"
     }
+
+    test {
+        useJUnitPlatform()
+    }
 }
 
 java {

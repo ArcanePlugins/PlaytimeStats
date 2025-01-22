@@ -1,6 +1,7 @@
 ### Local Development Files ###
 /local/
 testsvr/
+/playtimestats-plugin-core/TEST_DATA/
 
 ### Build ###
 .gradle
