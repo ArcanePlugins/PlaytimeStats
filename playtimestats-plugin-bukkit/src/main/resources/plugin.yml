@@ -3,7 +3,7 @@ main: "io.github.arcaneplugins.playtimestats.plugin.bukkit.PlaytimeStats"
 version: "${version}"
 description: "${description}"
 authors: [ "lokka30" ]
-website: "https://github.com/arcaneplugins/playtimestats/"
+website: "https://github.com/ArcanePlugins/PlaytimeStats/"
 api-version: "1.13"
 softdepend:
   - "PlaceholderAPI"
