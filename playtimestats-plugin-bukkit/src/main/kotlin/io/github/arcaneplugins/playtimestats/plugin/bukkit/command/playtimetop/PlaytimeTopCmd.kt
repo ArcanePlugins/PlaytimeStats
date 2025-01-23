@@ -60,7 +60,7 @@ object PlaytimeTopCmd: Cmd {
 
                 sender.sendMessage("${DARK_GRAY}${STRIKETHROUGH}+---------+${WHITE}${BOLD} Top Playtimes ${DARK_GRAY}•${GRAY} pg${page} ${DARK_GRAY}${STRIKETHROUGH}+---------+${RESET}")
                 dataList.forEachIndexed { index, data ->
-                    sender.sendMessage("${DARK_GRAY}  ${index + 1}.  ${AQUA}${data.lastUsername}${DARK_GRAY} • ${GRAY}${MINUTES_DECIMAL_FORMAT.format(data.minutesPlayed)} minutes${DARK_GRAY}, ${GRAY}${data.sessionsPlayed} sessions")
+                    sender.sendMessage("${DARK_GRAY}  ${index + 1}.  ${AQUA}${data.lastUsername}${DARK_GRAY} • ${GRAY}${MINUTES_DECIMAL_FORMAT.format(data.netMinutesPlayed())} minutes${DARK_GRAY}, ${GRAY}${data.sessionsPlayed} sessions")
                 }
                 sender.sendMessage("")
             })

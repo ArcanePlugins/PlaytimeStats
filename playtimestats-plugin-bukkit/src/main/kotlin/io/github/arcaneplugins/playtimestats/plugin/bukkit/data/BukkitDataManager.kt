@@ -22,9 +22,11 @@ package io.github.arcaneplugins.playtimestats.plugin.bukkit.data
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.PlaytimeStats
 import io.github.arcaneplugins.playtimestats.plugin.core.data.DataManager
 import io.github.arcaneplugins.playtimestats.plugin.core.data.PlaytimeData
+import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.Statistic
 import org.bukkit.entity.Player
+import java.util.*
 import kotlin.io.path.Path
 import kotlin.io.path.pathString
 
@@ -38,20 +40,45 @@ class BukkitDataManager(
     private lateinit var updateDataTask: UpdateDataRunnable
 
     internal fun updatePlayerData(player: Player) {
+        val grossMinutesPlayed: Float = getGrossMinutesPlayed(player)
+
+        val afkMinutesToAdd: Float = let {
+            if (!afkPlayers.containsKey(player.uniqueId)) {
+                return@let 0.toFloat()
+            }
+
+            val afkSessionMinutes: Float = grossMinutesPlayed - afkPlayers[player.uniqueId]!!
+            afkPlayers[player.uniqueId] = grossMinutesPlayed // reset afk session
+            return@let afkSessionMinutes
+        }
+
         setPlaytimeData(PlaytimeData(
             uuid = player.uniqueId,
             lastUsername = player.name,
-            minutesPlayed = getMinutesPlayed(player),
+            grossMinutesPlayed = grossMinutesPlayed,
+            afkMinutesPlayed = (getPlaytimeData(player.uniqueId)?.afkMinutesPlayed ?: 0.toFloat()) + afkMinutesToAdd,
             sessionsPlayed = getSessionsPlayed(player),
         ))
     }
 
-    fun getMinutesPlayed(player: OfflinePlayer): Float {
+    private fun getGrossMinutesPlayed(player: OfflinePlayer): Float {
         return player.getStatistic(Statistic.PLAY_ONE_MINUTE) / (1000.toFloat())
     }
 
-    fun getSessionsPlayed(player: OfflinePlayer): Int {
+    private fun getSessionsPlayed(player: OfflinePlayer): Int {
         return player.getStatistic(Statistic.LEAVE_GAME) + (if (player.isOnline) 1 else 0)
+    }
+
+    // note: this function can pull out-of-date data, since it will pull from DB archive first,
+    // if you need up-to-date data make sure to run #updatePlayerData(Player) first.
+    fun getOrCreatePlaytimeData(uuid: UUID, name: String?): PlaytimeData {
+        return getPlaytimeData(uuid) ?: PlaytimeData(
+            uuid = uuid,
+            lastUsername = name ?: "",
+            grossMinutesPlayed = getGrossMinutesPlayed(Bukkit.getOfflinePlayer(uuid)),
+            afkMinutesPlayed = 0.toFloat(),
+            sessionsPlayed = 1,
+        )
     }
 
     override fun startTasks() {

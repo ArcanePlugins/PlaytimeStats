@@ -26,7 +26,6 @@ import dev.jorel.commandapi.executors.CommandExecutor
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.PlaytimeStats
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.PlaytimeStats.Companion.MINUTES_DECIMAL_FORMAT
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.command.Cmd
-import io.github.arcaneplugins.playtimestats.plugin.core.data.PlaytimeData
 import io.github.arcaneplugins.playtimestats.plugin.core.misc.Permission
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
@@ -66,15 +65,10 @@ object PlaytimeCmd : Cmd {
                     plugin.dataMgr.updatePlayerData(player.player!!)
                 }
 
-                val data = plugin.dataMgr.getPlaytimeData(player.uniqueId) ?: PlaytimeData(
-                    uuid = player.uniqueId,
-                    lastUsername = player.name ?: "?",
-                    minutesPlayed = plugin.dataMgr.getMinutesPlayed(player),
-                    sessionsPlayed = plugin.dataMgr.getSessionsPlayed(player),
-                )
+                val data = plugin.dataMgr.getOrCreatePlaytimeData(player.uniqueId, player.name)
 
                 sender.sendMessage("${DARK_GRAY}${STRIKETHROUGH}+---+${WHITE}${BOLD} Playtime Stats for ${data.lastUsername} ${DARK_GRAY}${STRIKETHROUGH}+---+${RESET}")
-                sender.sendMessage("${DARK_GRAY} • ${GRAY}Time played: ${AQUA}${MINUTES_DECIMAL_FORMAT.format(data.minutesPlayed)} minutes")
+                sender.sendMessage("${DARK_GRAY} • ${GRAY}Time played: ${AQUA}${MINUTES_DECIMAL_FORMAT.format(data.netMinutesPlayed())} minutes")
                 sender.sendMessage("${DARK_GRAY} • ${GRAY}Sessions played: ${AQUA}${data.sessionsPlayed}")
                 sender.sendMessage("")
             })

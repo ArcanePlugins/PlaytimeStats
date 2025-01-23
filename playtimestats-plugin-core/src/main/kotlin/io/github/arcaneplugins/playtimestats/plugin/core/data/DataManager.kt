@@ -39,6 +39,9 @@ abstract class DataManager(
         private const val PAGE_SIZE = 10
     }
 
+    // Maps player UUIDs to their playtime when they began their AFK session (minutes)
+    protected val afkPlayers: MutableMap<UUID, Float> = mutableMapOf()
+
     private val url: String = URI_PREFIX + absolutePath
     private var connected = false
     private lateinit var connection: Connection
@@ -65,6 +68,20 @@ abstract class DataManager(
         connected = false
     }
 
+    fun playerBeginAfkSession(ptdata: PlaytimeData) {
+        afkPlayers[ptdata.uuid] = ptdata.grossMinutesPlayed
+    }
+
+    fun playerEndAfkSession(ptdata: PlaytimeData) {
+        val duration: Float = ptdata.grossMinutesPlayed - (afkPlayers[ptdata.uuid] ?: 0.toFloat())
+
+        if (duration != 0.toFloat()) {
+            setPlaytimeData(ptdata.copy(afkMinutesPlayed = ptdata.afkMinutesPlayed + duration))
+        }
+
+        afkPlayers.remove(ptdata.uuid)
+    }
+
     protected abstract fun startTasks()
 
     protected abstract fun stopTasks()
@@ -75,6 +92,12 @@ abstract class DataManager(
         }
     }
 
+    // note: this function can pull out-of-date data, since it will pull from DB archive first.
+    // if no DB data is found, null is returned.
+    //
+    // Each platform might have an alternative function
+    // that builds a default playtime object if it can figure out what their actual gross
+    // playtime is.
     fun getPlaytimeData(uuid: UUID): PlaytimeData? {
         return connection.prepareStatement(H2Statements.GET_PLAYTIME.str).use { statement ->
             statement.setBytes(1, uuid.toKotlinUuid().toByteArray())
@@ -87,7 +110,8 @@ abstract class DataManager(
             return@use PlaytimeData(
                 uuid = uuid,
                 lastUsername = rs.getString("last_username"),
-                minutesPlayed = rs.getFloat("minutes_played"),
+                grossMinutesPlayed = rs.getFloat("gross_minutes_played"),
+                afkMinutesPlayed = rs.getFloat("afk_minutes_played"),
                 sessionsPlayed = rs.getInt("sessions_played"),
             )
         }
@@ -97,8 +121,9 @@ abstract class DataManager(
         connection.prepareStatement(H2Statements.SET_PLAYTIME.str).use { statement ->
             statement.setBytes(1, data.uuid.toKotlinUuid().toByteArray())
             statement.setString(2, data.lastUsername)
-            statement.setFloat(3, data.minutesPlayed)
-            statement.setInt(4, data.sessionsPlayed)
+            statement.setFloat(3, data.grossMinutesPlayed)
+            statement.setFloat(4, data.afkMinutesPlayed)
+            statement.setInt(5, data.sessionsPlayed)
             statement.executeUpdate()
         }
     }
@@ -120,7 +145,8 @@ abstract class DataManager(
                     PlaytimeData(
                         uuid = Uuid.fromByteArray(rs.getBytes("player_uuid")).toJavaUuid(),
                         lastUsername = rs.getString("last_username"),
-                        minutesPlayed = rs.getFloat("minutes_played"),
+                        grossMinutesPlayed = rs.getFloat("gross_minutes_played"),
+                        afkMinutesPlayed = rs.getFloat("afk_minutes_played"),
                         sessionsPlayed = rs.getInt("sessions_played"),
                     )
                 )

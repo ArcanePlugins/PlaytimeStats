@@ -17,20 +17,24 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.github.arcaneplugins.playtimestats.plugin.core.data
+package io.github.arcaneplugins.playtimestats.plugin.bukkit.integration
 
-import java.util.*
+import io.github.arcaneplugins.playtimestats.plugin.bukkit.PlaytimeStats
 
-data class PlaytimeData(
-    val uuid: UUID,
-    val lastUsername: String,
-    val grossMinutesPlayed: Float,
-    val afkMinutesPlayed: Float,
-    val sessionsPlayed: Int,
+abstract class Integration(
+    val plugin: PlaytimeStats,
+    val name: String,
 ) {
 
-    fun netMinutesPlayed(): Float {
-        return grossMinutesPlayed - afkMinutesPlayed
-    }
+    protected var enabled: Boolean = true // TODO make configurable
+
+    var connected: Boolean = false
+        protected set
+
+    abstract fun canConnect(): Boolean
+
+    abstract fun startup()
+
+    abstract fun shutdown()
 
 }

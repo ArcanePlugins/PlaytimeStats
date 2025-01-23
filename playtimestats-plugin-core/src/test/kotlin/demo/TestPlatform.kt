@@ -91,7 +91,8 @@ class TestPlatform : Platform {
         val ptData: PlaytimeData = PlaytimeData(
             uuid = notchUuid,
             lastUsername = notchUsername,
-            minutesPlayed = minutesPlayed,
+            grossMinutesPlayed = minutesPlayed,
+            afkMinutesPlayed = 0.toFloat(),
             sessionsPlayed = sessionsPlayed,
         )
 
@@ -101,17 +102,18 @@ class TestPlatform : Platform {
         assertNotNull(gotPtData, "playtime data should not be null since it was set")
         assertEquals(gotPtData.uuid, notchUuid, "expected match")
         assertEquals(gotPtData.lastUsername, notchUsername, "expected match")
-        assertEquals(gotPtData.minutesPlayed, minutesPlayed, "expected match")
+        assertEquals(gotPtData.grossMinutesPlayed, minutesPlayed, "expected match")
         assertEquals(gotPtData.sessionsPlayed, sessionsPlayed, "expected match")
         val newMinutesPlayed: Float = 25.4567.toFloat()
-        dataMgr.setPlaytimeData(ptData.copy(minutesPlayed = newMinutesPlayed))
+        dataMgr.setPlaytimeData(ptData.copy(grossMinutesPlayed = newMinutesPlayed))
         val newGotPtData: PlaytimeData? = dataMgr.getPlaytimeData(notchUuid)
         assertNotNull(newGotPtData, "playtime data should not be null since it was set")
-        assertEquals(newGotPtData.minutesPlayed, newMinutesPlayed, "expected match")
+        assertEquals(newGotPtData.grossMinutesPlayed, newMinutesPlayed, "expected match")
         val differentPtData = PlaytimeData(
             uuid = UUID.fromString("5f9f71d7-bcef-4f2c-affb-f7bf96682b52"),
             lastUsername = "lokka30",
-            minutesPlayed = 15.toFloat(),
+            grossMinutesPlayed = 15.toFloat(),
+            afkMinutesPlayed = 0.toFloat(),
             sessionsPlayed = 4,
         )
         dataMgr.setPlaytimeData(differentPtData)

@@ -17,20 +17,25 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.github.arcaneplugins.playtimestats.plugin.core.data
+package io.github.arcaneplugins.playtimestats.plugin.bukkit.integration
 
-import java.util.*
+import io.github.arcaneplugins.playtimestats.plugin.bukkit.PlaytimeStats
+import io.github.arcaneplugins.playtimestats.plugin.bukkit.integration.std.EssentialsXIntegration
 
-data class PlaytimeData(
-    val uuid: UUID,
-    val lastUsername: String,
-    val grossMinutesPlayed: Float,
-    val afkMinutesPlayed: Float,
-    val sessionsPlayed: Int,
+class IntegrationManager(
+    plugin: PlaytimeStats
 ) {
 
-    fun netMinutesPlayed(): Float {
-        return grossMinutesPlayed - afkMinutesPlayed
+    private val integrations: List<Integration> = listOf(
+        EssentialsXIntegration(plugin),
+    )
+
+    fun startup() {
+        integrations.forEach(Integration::startup)
+    }
+
+    fun shutdown() {
+        integrations.forEach(Integration::shutdown)
     }
 
 }
