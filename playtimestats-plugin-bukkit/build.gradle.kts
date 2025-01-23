@@ -35,17 +35,19 @@ apply(plugin = "com.gradleup.shadow")
 repositories {
     mavenCentral()
     gradlePluginPortal()
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven("https://repo.essentialsx.net/releases/")
+    maven("https://repo.papermc.io/repository/maven-public/")
 }
 
 dependencies {
     implementation(project(":playtimestats-plugin-core"))
     implementation(libs.bStats)
     implementation(libs.commandApi)
-    implementation(libs.h2)
-    compileOnly(libs.spigotApi)
+    compileOnly(libs.h2)
+    compileOnly(libs.paperApi)
     compileOnly(libs.placeholderApi)
+    compileOnly(libs.essentialsX)
 }
 
 java {
@@ -65,7 +67,6 @@ tasks {
             relocate("dev.jorel.commandapi", "${project.group}.plugin.bukkit.lib.commandapi")
             relocate("org.bstats", "${project.group}.plugin.bukkit.lib.bstats")
             relocate("kotlin", "${project.group}.plugin.bukkit.lib.kotlin")
-            relocate("org.h2", "io.github.arcaneplugins.playtimestats.plugin.bukkit.lib.h2")
         }
         // minimize {}
     }
@@ -86,6 +87,7 @@ tasks {
         val properties = mapOf(
             "version" to project.version,
             "description" to project.description,
+            "h2Version" to libs.versions.h2Version.get()
         )
 
         inputs.properties(properties)
