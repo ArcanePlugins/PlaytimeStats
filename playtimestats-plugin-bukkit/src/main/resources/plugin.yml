@@ -7,3 +7,6 @@ website: "https://github.com/ArcanePlugins/PlaytimeStats/"
 api-version: "1.13"
 softdepend:
   - "PlaceholderAPI"
+  - "EssentialsX"
+libraries:
+  - "com.h2database:h2:${h2Version}"
