@@ -1,18 +1,20 @@
 [versions]
 kotlinPluginVersion = "2.1.0"
 shadowVersion = "8.3.5"
-spigotApiVersion = "1.21.3-R0.1-SNAPSHOT" # https://hub.spigotmc.org/nexus/service/rest/repository/browse/snapshots/org/spigotmc/spigot-api/
 placeholderApiVersion = "2.11.6" # https://repo.extendedclip.com/content/repositories/placeholderapi/me/clip/placeholderapi/
 commandApiVersion = "9.7.0" # https://github.com/JorelAli/CommandAPI
 bStatsVersion = "3.1.0" # https://mvnrepository.com/artifact/org.bstats/bstats-bukkit
-h2Version = "2.2.220"
+h2Version = "2.3.232" # https://mvnrepository.com/artifact/com.h2database/h2
+essentialsXVersion = "2.20.1" # https://repo.essentialsx.net/#/releases/net/essentialsx/EssentialsX
+paperApiVersion = "1.20.1-R0.1-SNAPSHOT" # https://docs.papermc.io/paper/dev/project-setup
 
 [libraries]
-spigotApi = { group = "org.spigotmc", name = "spigot-api", version.ref = "spigotApiVersion" }
 placeholderApi = { group = "me.clip", name = "placeholderapi", version.ref = "placeholderApiVersion" }
 commandApi = { group = "dev.jorel", name = "commandapi-bukkit-shade", version.ref = "commandApiVersion" }
 bStats = { group = "org.bstats", name = "bstats-bukkit", version.ref = "bStatsVersion" }
 h2 = { group = "com.h2database", name = "h2", version.ref = "h2Version" }
+essentialsX = { group = "net.essentialsx", name = "EssentialsX", version.ref = "essentialsXVersion" }
+paperApi = { group = "io.papermc.paper", name = "paper-api", version.ref = "paperApiVersion" }
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinPluginVersion" }
