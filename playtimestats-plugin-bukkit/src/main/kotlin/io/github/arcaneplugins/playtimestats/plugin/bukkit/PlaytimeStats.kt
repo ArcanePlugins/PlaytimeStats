@@ -21,6 +21,7 @@ package io.github.arcaneplugins.playtimestats.plugin.bukkit
 
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.command.CmdManager
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.data.BukkitDataManager
+import io.github.arcaneplugins.playtimestats.plugin.bukkit.integration.IntegrationManager
 import io.github.arcaneplugins.playtimestats.plugin.bukkit.listener.ListenerManager
 import io.github.arcaneplugins.playtimestats.plugin.core.Platform
 import org.bukkit.plugin.java.JavaPlugin
@@ -29,12 +30,13 @@ import java.text.DecimalFormat
 class PlaytimeStats : JavaPlugin(), Platform {
 
     companion object {
-        val MINUTES_DECIMAL_FORMAT = DecimalFormat("0.00")
+        val MINUTES_DECIMAL_FORMAT = DecimalFormat("#,#0.00")
     }
 
     private val cmdMgr = CmdManager(this)
     internal val dataMgr = BukkitDataManager(this)
     private val listenerMgr = ListenerManager(this)
+    private val integrationMgr = IntegrationManager(this)
 
     override fun onLoad() {
         initialize()
@@ -54,18 +56,25 @@ class PlaytimeStats : JavaPlugin(), Platform {
 
     override fun startup() {
         dataMgr.startup()
+        integrationMgr.startup()
         listenerMgr.startup()
         cmdMgr.startup()
     }
 
     override fun shutdown() {
         cmdMgr.shutdown()
+        integrationMgr.shutdown()
         dataMgr.shutdown()
     }
 
     override fun reload() {
+        // stopping stuff
+        integrationMgr.shutdown()
         dataMgr.shutdown()
+
+        // starting stuff
         dataMgr.startup()
+        integrationMgr.startup()
     }
 
 }

@@ -43,7 +43,6 @@ class CmdManager(
                 .verboseOutput(false)
                 .usePluginNamespace()
         )
-
         registerCommands()
     }
 

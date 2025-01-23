@@ -25,29 +25,36 @@ enum class H2Statements(
 
     CREATE_TABLES(str = """
         CREATE TABLE IF NOT EXISTS Playtime (
-            player_uuid     BINARY(16)          NOT NULL,
-            last_username   VARCHAR(16)         NOT NULL,
-            minutes_played  FLOAT               NOT NULL,
-            sessions_played INTEGER             NOT NULL,
+            player_uuid             BINARY(16)          NOT NULL,
+            last_username           VARCHAR(16)         NOT NULL,
+            gross_minutes_played    FLOAT               NOT NULL,
+            afk_minutes_played      FLOAT               NOT NULL,
+            sessions_played         INTEGER             NOT NULL,
             PRIMARY KEY (player_uuid)
         );
     """.trimIndent()),
 
     GET_PLAYTIME(str = """
-        SELECT minutes_played, sessions_played, last_username
+        SELECT last_username, gross_minutes_played, afk_minutes_played, sessions_played
         FROM Playtime
         WHERE player_uuid = ?;
     """.trimIndent()),
 
     SET_PLAYTIME(str = """
-        MERGE INTO Playtime (player_uuid, last_username, minutes_played, sessions_played)
-        VALUES (?, ?, ?, ?);
+        MERGE INTO Playtime (player_uuid, last_username, gross_minutes_played, afk_minutes_played, sessions_played)
+        VALUES (?, ?, ?, ?, ?);
     """),
 
     GET_TOP_PLAYTIMES(str = """
-        SELECT player_uuid, last_username, minutes_played, sessions_played
+        SELECT
+            player_uuid,
+            last_username,
+            gross_minutes_played,
+            afk_minutes_played,
+            sessions_played,
+            (gross_minutes_played - afk_minutes_played) AS net_minutes_played
         FROM Playtime
-        ORDER BY minutes_played DESC
+        ORDER BY net_minutes_played DESC
         LIMIT ?
         OFFSET ?;
     """.trimIndent()),
