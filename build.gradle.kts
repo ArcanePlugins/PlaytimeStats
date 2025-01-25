@@ -36,6 +36,7 @@ subprojects {
         plugin("org.jetbrains.kotlin.jvm")
         plugin("com.gradleup.shadow")
         plugin("maven-publish")
+        plugin("com.gradleup.shadow")
     }
 
     configure<PublishingExtension> {
@@ -50,6 +51,10 @@ subprojects {
             }
             publications {
                 register<MavenPublication>("gpr") {
+                    artifact(tasks.named("shadowJar")) {
+                        builtBy(tasks.named("shadowJar"))
+                    }
+
                     from(components["java"])
 
                     pom {
