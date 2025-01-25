@@ -36,12 +36,32 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
+publishing {
+    publications {
+        withType<MavenPublication>().configureEach {
+            if (name == "gpr") {
+                artifacts.clear()
+                artifact(tasks.named("shadowJar").get()) {
+                    classifier = "all"
+                }
+            }
+        }
+    }
+}
+
 tasks {
     jar {
         enabled = true
     }
 
     compileKotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_21
+            apiVersion = KotlinVersion.KOTLIN_2_1
+        }
+    }
+
+    compileTestKotlin {
         compilerOptions {
             jvmTarget = JvmTarget.JVM_21
             apiVersion = KotlinVersion.KOTLIN_2_1
@@ -61,9 +81,4 @@ tasks {
 java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
-}
-
-kotlin {
-    jvmToolchain(21)
 }
