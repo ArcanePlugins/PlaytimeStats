@@ -1,3 +1,5 @@
+import java.net.URI
+
 /*
  * Copyright (c) 2025 lokka30 and contributors.
  *
@@ -28,6 +30,26 @@ allprojects {
 plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.shadow)
+    id("maven-publish")
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = URI("https://maven.pkg.github.com/ArcanePlugins/PlaytimeStats")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
+
+tasks {
+    publish {
+        dependsOn(build)
+    }
 }
 
 subprojects {
