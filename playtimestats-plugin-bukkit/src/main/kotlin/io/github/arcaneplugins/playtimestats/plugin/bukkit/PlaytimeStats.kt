@@ -30,7 +30,7 @@ import java.text.DecimalFormat
 class PlaytimeStats : JavaPlugin(), Platform {
 
     companion object {
-        val MINUTES_DECIMAL_FORMAT = DecimalFormat("#,#0.00")
+        val MINUTES_DECIMAL_FORMAT = DecimalFormat("#,##0.00")
     }
 
     private val cmdMgr = CmdManager(this)
