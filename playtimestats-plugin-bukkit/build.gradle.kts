@@ -55,6 +55,7 @@ tasks {
             relocate("org.bstats", "${project.group}.plugin.bukkit.lib.bstats")
             relocate("kotlin", "${project.group}.plugin.bukkit.lib.kotlin")
         }
+        minimize()
     }
 
     processResources {

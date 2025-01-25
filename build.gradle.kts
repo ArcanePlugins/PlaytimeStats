@@ -134,7 +134,9 @@ subprojects {
     tasks {
         shadowJar {
             from("$rootDir/LICENSE.md")
-            minimize()
+
+            // WARNING: DO NOT MINIMIZE JAR - CAUSES LIBRARY MODULES TO NOT INCLUDE NECESSARY CLASSES
+            // instead, minimize whichever modules individually support it :)
         }
 
         build {

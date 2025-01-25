@@ -29,6 +29,11 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
+/*
+WARNING FOR THIS MODULE:
+DO NOT MINIMIZE shadowJar's JAR - CAUSES LIBRARY MODULES TO NOT INCLUDE NECESSARY CLASSES
+ */
+
 publishing {
     publications {
         withType<MavenPublication>().configureEach {
