@@ -32,5 +32,5 @@ jobs:
         uses: AButler/upload-release-assets@v3.0
         with:
           # Separate multiple files with semicolons (;)
-          files: "playtimestats-plugin-bukkit/build/libs/playtimestats-plugin-bukkit-*.jar;playtimestats-plugin-core/build/libs/playtimestats-plugin-core-*.jar"
+          files: "playtimestats-plugin-bukkit/build/libs/playtimestats-plugin-bukkit-*.jar"
           repo-token: ${{ secrets.GITHUB_TOKEN }}
