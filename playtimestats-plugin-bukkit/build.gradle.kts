@@ -61,6 +61,7 @@ tasks {
     }
 
     shadowJar {
+        dependsOn(":playtimestats-plugin-core:shadowJar")
         dependencies {
             relocate("dev.jorel.commandapi", "${project.group}.plugin.bukkit.lib.commandapi")
             relocate("org.bstats", "${project.group}.plugin.bukkit.lib.bstats")
