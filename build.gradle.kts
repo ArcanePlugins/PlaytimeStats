@@ -24,6 +24,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 allprojects {
     repositories {
         mavenCentral()
+        gradlePluginPortal()
     }
 
     group = "io.github.arcaneplugins.playtimestats"
@@ -133,6 +134,7 @@ subprojects {
     tasks {
         shadowJar {
             from("$rootDir/LICENSE.md")
+            minimize()
         }
 
         build {

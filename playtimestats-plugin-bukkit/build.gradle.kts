@@ -17,12 +17,6 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
-group = "io.github.arcaneplugins.playtimestats"
-description = description
-version = version
-
 plugins {
     kotlin("jvm") version "2.1.0"
     alias(libs.plugins.shadow)
@@ -32,8 +26,6 @@ apply(plugin = "java")
 apply(plugin = "kotlin")
 
 repositories {
-    mavenCentral()
-    gradlePluginPortal()
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://repo.essentialsx.net/releases/")
     maven("https://repo.papermc.io/repository/maven-public/")
@@ -56,10 +48,6 @@ java {
 }
 
 tasks {
-    jar {
-        enabled = false
-    }
-
     shadowJar {
         dependsOn(":playtimestats-plugin-core:shadowJar")
         dependencies {
@@ -67,19 +55,6 @@ tasks {
             relocate("org.bstats", "${project.group}.plugin.bukkit.lib.bstats")
             relocate("kotlin", "${project.group}.plugin.bukkit.lib.kotlin")
         }
-        // minimize {}
-    }
-
-    compileKotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_21
-            apiVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1
-        }
-    }
-
-    compileJava {
-        options.isDeprecation = true
-        options.encoding = "UTF-8"
     }
 
     processResources {
