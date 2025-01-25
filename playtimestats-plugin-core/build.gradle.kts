@@ -28,9 +28,6 @@ apply(plugin = "java")
 apply(plugin = "kotlin")
 apply(plugin = "com.gradleup.shadow")
 
-group = "io.github.arcaneplugins.playtimestats"
-version = "0.1.0"
-
 repositories {
     mavenCentral()
 }
