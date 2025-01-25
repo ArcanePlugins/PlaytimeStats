@@ -17,8 +17,8 @@ A lightweight plugin that monitors the playtime of each player on your Spigot/Pa
   * Support ignoring AFK playtime (EssentialsX).
 * Misc:
   * Works out of the box with no setup needed.
-  * Clean code - Kotlin/Gradle stack with unit-tested core.
   * Free & open source software under GPL v3.
+  * Kotlin/Gradle stack with unit-tested core.
 * Check the [To-Do List][TODOLIST] for further list and detail of planned tasks. 
 
 # License

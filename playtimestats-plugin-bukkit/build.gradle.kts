@@ -18,6 +18,7 @@
  */
 
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.net.URI
 
 group = "io.github.arcaneplugins.playtimestats"
 description = description
@@ -26,6 +27,7 @@ version = version
 plugins {
     kotlin("jvm") version "2.1.0"
     alias(libs.plugins.shadow)
+    id("maven-publish")
 }
 
 apply(plugin = "java")
@@ -48,6 +50,19 @@ dependencies {
     compileOnly(libs.paperApi)
     compileOnly(libs.placeholderApi)
     compileOnly(libs.essentialsX)
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = URI("https://maven.pkg.github.com/ArcanePlugins/PlaytimeStats")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
 
 java {

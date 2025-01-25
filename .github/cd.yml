@@ -1,0 +1,36 @@
+name: Java CD with Gradle
+
+on:
+  release:
+    types: [ created ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: JDK21 Setup
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Gradle Setup
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Gradle Build and Publish
+        run: ./gradlew publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Assets
+        uses: AButler/upload-release-assets@v3.0
+        with:
+          # Separate multiple files with semicolons (;)
+          files: "./playtimestats-plugin-bukkit/build/libs/playtimestats-plugin-bukkit-*.jar;./playtimestats-plugin-core/build/libs/playtimestats-plugin-core-0.1.0.jar"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
