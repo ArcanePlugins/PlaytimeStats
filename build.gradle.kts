@@ -17,12 +17,12 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-group = "io.github.arcaneplugins.playtimestats"
-
 allprojects {
     repositories {
         mavenCentral()
     }
+
+    group = "io.github.arcaneplugins.playtimestats"
 }
 
 plugins {
@@ -51,6 +51,33 @@ subprojects {
             publications {
                 register<MavenPublication>("gpr") {
                     from(components["java"])
+
+                    pom {
+                        name = project.name
+                        description = project.description
+                        url = "https://github.com/ArcanePlugins/PlaytimeStats"
+
+                        licenses {
+                            license {
+                                name = "GNU GPL v3"
+                                url = "https://gnu.org"
+                            }
+                        }
+
+                        developers {
+                            developer {
+                                id = "lokka30"
+                                name = "lokka30"
+                                email = "lachy@lachy.space"
+                            }
+                        }
+
+                        scm {
+                            connection = "scm:git:git://github.com/ArcanePlugins/PlaytimeStats.git"
+                            developerConnection = "scm:git:ssh://github.com:ArcanePlugins/PlaytimeStats.git"
+                            url = "http://github.com/ArcanePlugins/PlaytimeStats"
+                        }
+                    }
                 }
             }
         }
