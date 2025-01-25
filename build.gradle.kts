@@ -1,5 +1,3 @@
-import java.net.URI
-
 /*
  * Copyright (c) 2025 lokka30 and contributors.
  *
@@ -33,29 +31,29 @@ plugins {
     id("maven-publish")
 }
 
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = URI("https://maven.pkg.github.com/ArcanePlugins/PlaytimeStats")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
-}
-
-tasks {
-    publish {
-        dependsOn(build)
-    }
-}
-
 subprojects {
     apply {
         plugin("org.jetbrains.kotlin.jvm")
         plugin("com.gradleup.shadow")
+        plugin("maven-publish")
+    }
+
+    configure<PublishingExtension> {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/ArcanePlugins/PlaytimeStats")
+                credentials {
+                    username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+                    password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+                }
+            }
+            publications {
+                register<MavenPublication>("gpr") {
+                    from(components["java"])
+                }
+            }
+        }
     }
 
     tasks {
@@ -65,6 +63,10 @@ subprojects {
 
         build {
             dependsOn(shadowJar)
+        }
+
+        publish {
+            dependsOn(build)
         }
     }
 
