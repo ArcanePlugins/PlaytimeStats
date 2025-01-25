@@ -61,7 +61,6 @@ tasks {
     }
 
     shadowJar {
-        archiveClassifier = ""
         dependencies {
             relocate("dev.jorel.commandapi", "${project.group}.plugin.bukkit.lib.commandapi")
             relocate("org.bstats", "${project.group}.plugin.bukkit.lib.bstats")

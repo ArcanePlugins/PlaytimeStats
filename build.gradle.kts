@@ -1,3 +1,7 @@
+
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+
 /*
  * Copyright (c) 2025 lokka30 and contributors.
  *
@@ -37,6 +41,44 @@ subprojects {
         plugin("com.gradleup.shadow")
         plugin("maven-publish")
         plugin("com.gradleup.shadow")
+    }
+
+    tasks {
+        jar {
+            enabled = false
+        }
+
+        shadowJar {
+            archiveClassifier = ""
+        }
+
+        compileKotlin {
+            compilerOptions {
+                jvmTarget = JvmTarget.JVM_21
+                apiVersion = KotlinVersion.KOTLIN_2_1
+            }
+        }
+
+        compileTestKotlin {
+            compilerOptions {
+                jvmTarget = JvmTarget.JVM_21
+                apiVersion = KotlinVersion.KOTLIN_2_1
+            }
+        }
+
+        compileTestJava {
+            sourceCompatibility = "21"
+            targetCompatibility = "21"
+        }
+
+        compileJava {
+            options.isDeprecation = true
+            options.encoding = "UTF-8"
+        }
+
+        test {
+            useJUnitPlatform()
+        }
     }
 
     configure<PublishingExtension> {

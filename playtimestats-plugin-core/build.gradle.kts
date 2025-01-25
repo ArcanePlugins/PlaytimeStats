@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
-
 /*
  * Copyright (c) 2025 lokka30 and contributors.
  *
@@ -27,10 +24,6 @@ plugins {
 apply(plugin = "java")
 apply(plugin = "kotlin")
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     api(libs.h2)
     testImplementation(kotlin("test"))
@@ -42,43 +35,9 @@ publishing {
             if (name == "gpr") {
                 artifacts.clear()
                 artifact(tasks.named("shadowJar").get()) {
-                    classifier = "all"
+                    classifier = ""
                 }
             }
         }
     }
-}
-
-tasks {
-    jar {
-        enabled = true
-    }
-
-    compileKotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_21
-            apiVersion = KotlinVersion.KOTLIN_2_1
-        }
-    }
-
-    compileTestKotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_21
-            apiVersion = KotlinVersion.KOTLIN_2_1
-        }
-    }
-
-    compileJava {
-        options.isDeprecation = true
-        options.encoding = "UTF-8"
-    }
-
-    test {
-        useJUnitPlatform()
-    }
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
 }
