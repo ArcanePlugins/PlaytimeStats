@@ -29,6 +29,7 @@ object ReloadSubcmd : Cmd {
     override fun build(plugin: PlaytimeStats): CommandAPICommand {
         return CommandAPICommand("reload")
             .withPermission(Permission.COMMAND_PLAYTIMESTATS_RELOAD.toString())
+            .withAliases("rl")
             .executes(CommandExecutor { sender, _ ->
                 sender.sendMessage("Reloading...")
                 try {
