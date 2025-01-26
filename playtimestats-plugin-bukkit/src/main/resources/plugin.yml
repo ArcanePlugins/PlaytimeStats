@@ -10,3 +10,16 @@ softdepend:
   - "EssentialsX"
 libraries:
   - "com.h2database:h2:${h2Version}"
+permissions:
+  playtimestats.command.playtime:
+    default: true
+    description: "allows you to run `/playtime`"
+  playtimestats.command.playtimestats:
+    default: true
+    description: "allows you to run `/playtimestats` (base command)"
+  playtimestats.command.playtimestats.reload:
+    default: op
+    description: "allows you to run `/playtimestats reload`"
+  playtimestats.command.playtimestats.version:
+    default: true
+    description: "allows you to run `/playtimestats version`"
