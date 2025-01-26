@@ -2,24 +2,61 @@
 
 # PlaytimeStats
 
-A lightweight plugin that monitors the playtime of each player on your Spigot/Paper server.
+A peformant playtime monitoring solution for MC with leaderboards and more.
 
 </div>
 
-## Features
+# Features
 
-* Standard:
-  * Per-user playtime monitoring.
-  * 'Top Playtimes' ranking via `/pttop`, just like `/baltop` for money.
-  * Tracks playtime in minutes and sessions played.
-  * References Minecraft's internal player statistics for accurate measurement.
-* Powerful:
-  * Support ignoring AFK playtime (EssentialsX).
-* Misc:
-  * Works out of the box with no setup needed.
-  * Free & open source software under GPL v3.
-  * Kotlin/Gradle stack with unit-tested core.
-* Check the [To-Do List][TODOLIST] for further list and detail of planned tasks. 
+* **Per-user playtime and sessions count monitoring**.
+* **View top playtimes on the server** via `/pttop` / `/playtimetop`.
+  * Paginated and delivered via a SQL database.
+* **Uses Minecraft statistics**.
+  * This means that Playtimestats will display playtime that happened *before* the plugin was installed as well.
+* **Ignores AFK playtime**.
+  * When players are AFK in EssentialsX, PlaytimeStats will track this time separately and negate it from the player's net playtime.
+* **Works out of the box**. Zero configuration necessary.
+* **Free and open source software** under GPL v3.
+* Built with Kotlin & Gradle, with (mostly) unit-tested database logic.
+* **[More ideas in the pipeline - check the To-Do List](https://github.com/orgs/ArcanePlugins/projects/11/views/1)**!
+
+# Support
+
+* The [ArcanePlugins Discord](https://discord.gg/HqZwdcJ) is the best place for support! Join in and select the **"Other lokka30 plugins"** role and channel on join. Feel free to chat or query about the plugin.
+
+# Commands
+* `/playtime`
+  * **Aliases:** `/pt`
+  * **Usage:** `/pt [player]`
+  * **Description:** View your or another players' playtime stats.
+
+* `/playtimestats`
+  * **Aliases:** `/ptstats`
+  * **Description:** General plugin information and management.
+  * **Subcommands:**
+    * `reload`
+      * **Aliases:** `rl`
+      * **Usage:** `/ptstats rl`
+      * **Description:** Reload the configuration.
+    * `version`
+      * **Aliases:** `ver`, `about`, `info`
+      * **Usage:** `/ptstats ver`
+      * **Description:** View plugin version.
+
+* `/playtimetop`
+  * **Aliases:** `/pttop`
+  * **Usage:** `/pttop [page]`
+  * **Description:** View top playtimes on the server.
+
+# Permissions
+* `playtimestats.command.playtime` (default: yes)
+  * allows you to run `/playtime`
+* `playtimestats.command.playtimestats` (default: yes)
+  * allows you to run `/playtimestats` (base command)
+* `playtimestats.command.playtimestats.reload` (default: operators)
+  * allows you to run `/playtimestats reload`
+* `playtimestats.command.playtimestats.version` (default: yes)
+  * allows you to run `/playtimestats version`
 
 # License
 
